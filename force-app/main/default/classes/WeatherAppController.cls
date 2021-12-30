@@ -10,10 +10,10 @@ public with sharing class WeatherAppController {
 
       Http http = new Http();
       HttpRequest req = new HttpRequest();
-      req.setEndpoint(api + city + '&appid=' + apiKey);
+      req.setEndpoint(api + city + '&units=metric' + '&appid=' + apiKey);
       req.setMethod('GET');
       HTTPResponse res = http.send(req);
-      // JSONParser parser = JSON.createParser(res.getBody());
+      JSONParser parser = JSON.createParser(res.getBody());
       return res.getBody();
     }
 }
