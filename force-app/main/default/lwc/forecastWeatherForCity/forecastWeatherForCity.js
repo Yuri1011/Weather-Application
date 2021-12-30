@@ -1,3 +1,5 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
-export default class ForecastWeatherForCity extends LightningElement {}
+export default class ForecastWeatherForCity extends LightningElement {
+   @api forecast;
+}

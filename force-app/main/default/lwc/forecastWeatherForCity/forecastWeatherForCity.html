@@ -4,5 +4,16 @@
         <h2 class="slds-text-heading_medium slds-m-bottom_medium">
             Forecast Weather.
         </h2>
+        <lightning-layout>
+            <lightning-layout-item size="5" medium-device-size="4" padding="around-small">
+                <lightning-card icon-name="standard:topic" title="Temperature">
+                    <div class="slds-align_absolute-center color-blue">
+                        <template if:true={forecast}>
+                            Forecast
+                        </template>
+                    </div>
+                </lightning-card>
+            </lightning-layout-item>
+        </lightning-layout>
     </div>
 </template>

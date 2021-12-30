@@ -2,11 +2,13 @@
 <template>
     <div class="slds-m-top_medium slds-m-bottom_x-large">
         <div class="blockSearchCity slds-p-around_medium lgc-bg">
-            <lightning-input type="text" label="Enter the name of the city" placeholder="type here..." required>
+            <lightning-input onchange={onchangeInputCity} type="text" label="Enter the name of the city"
+                placeholder="type here..." required>
             </lightning-input>
 
-            <lightning-button variant="brand" label="Search" title="Search city" onclick={handleClick}
-                class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Search" title="Search city" onclick={weatherCheck}
+                class="btnSearch slds-m-left_x-small"></lightning-button>
         </div>
     </div>
+    <c-forecast-weather-for-city forecast={forecast}></c-forecast-weather-for-city>
 </template>
