@@ -1,33 +1,24 @@
 public with sharing class WeatherAppController {
 
-  @AuraEnabled (cacheable = true)
-  public static void getCustomSettingsWeather(String city) {
+  @AuraEnabled
+  public static WeatherWrapper getCustomSettingsWeather(String city) {
 
-    List<Weather_Setting__c> settingsWeather = new List<Weather_Setting__c>();
-    settingsWeather =  [SELECT Id, Api_Key__c, Forecast_Service_URL__c FROM Weather_Setting__c ];
+    Weather_Setting__c settingsWeather = Weather_Setting__c.getOrgDefaults();
 
-    String api;
-    String apiKey;
+    WeatherWrapper forecastWeather = getForecastWeather(settingsWeather, city);
 
-    for (Weather_Setting__c record : settingsWeather) {
-      api = record.Forecast_Service_URL__c;
-      apiKey = record.Api_Key__c;
-    }
-
-    getForecastWeather(api, apiKey, city);
+    return forecastWeather;
   }
 
-  @AuraEnabled (cacheable = true)
-  public static WeatherWrapper getForecastWeather(String api, String apiKey, String city ) {
+  public static WeatherWrapper getForecastWeather(Weather_Setting__c settingsWeather, String city ) {
     Http http = new Http();
     HttpRequest req = new HttpRequest();
-    req.setEndpoint(api + city + '&units=metric' + '&appid=' + apiKey);
+    req.setEndpoint(settingsWeather.Forecast_Service_URL__c + city + '&units=metric' + '&appid=' + settingsWeather.Api_Key__c);
     req.setMethod('GET');
     HTTPResponse res = http.send(req);
 
     WeatherWrapper wrapper = (WeatherWrapper)JSON.deserialize(res.getBody(), WeatherWrapper.class);
     
-
     Map<String, Object> forecastsMap = (Map<String, Object>) JSON.deserializeUntyped(res.getBody()); 
     String jsonList = JSON.serialize(forecastsMap.get('list'));
     List<Forecast> listForecasts = (List<Forecast>) JSON.deserialize(jsonList, List<Forecast>.class);
@@ -37,53 +28,73 @@ public with sharing class WeatherAppController {
     String cityName = wrapper.city.name;
     String countryAbr = wrapper.city.country;
 
-    createRecordCity(cityName, countryAbr, listForecasts);
+    City__c recordCity = createRecordCity(cityName, countryAbr);
+    createForecast(recordCity, listForecasts);
     
     return wrapper;
   }
 
-  @AuraEnabled
-  public static void createRecordCity(String cityName, String countryAbr, List<Forecast> listForecasts) {
+  public static City__c createRecordCity(String cityName, String countryAbr) {
     City__c recordCity = new City__c();
     recordCity.Name = cityName;
     recordCity.Country__c = countryAbr;
 
-    createForecast(cityName, listForecasts);
     // insert recordCity;
+
+    return recordCity;
   }
 
-  @AuraEnabled
-  public static void createForecast(String cityName, List<Forecast> listForecasts) {
+  public static void createForecast(City__c recordCity, List<Forecast> listForecasts) {
+
+    List<Forecast__c> recordsForecast = new List<Forecast__c>();
 
     for (Forecast variable : listForecasts) {
       DateTime dataTimesForecast =  DateTime.newInstance(1000 * (Long) variable.dt);
       Forecast__c newForecast = new Forecast__c();
-      newForecast.Name = cityName + '-' + dataTimesForecast.date();
+      newForecast.Name = recordCity.Name + '-' + dataTimesForecast.format('DD.MM.YYYY');
       newForecast.Date__c = dataTimesForecast.date();
-      newForecast.Time__c = dataTimesForecast.time();
-
-      // newForecast.Temperature__c = 
+      newForecast.Time__c = dataTimesForecast.time();     
+      newForecast.Temperature__c = variable.main.temp;
+      newForecast.City__c = recordCity.Id;
+      // newForecast.Weather_Message__c =
+      recordsForecast.add(newForecast); 
     }
+
+    // insert recordsForecast;
   }
 
   public class WeatherWrapper{
+  @AuraEnabled
     public City city;
+
+  @AuraEnabled
     public List<Forecast> listForecasts;
   }
 
   public class City{
+  @AuraEnabled
     public String name;
+
+  @AuraEnabled
     public String country;
   }
 
   public class Forecast{
+  @AuraEnabled
     public Main main;
+
+  @AuraEnabled
     public Integer dt;
   }
 
   public class Main{
+  @AuraEnabled
     public Decimal temp;
+
+  @AuraEnabled
     public Decimal temp_min;
+    
+  @AuraEnabled
     public Decimal temp_max;
   }
 }

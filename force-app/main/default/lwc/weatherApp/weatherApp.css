@@ -1,4 +1,13 @@
 .blockSearchCity{
     display: flex;
     align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+.inputCity{
+    display: inline-block;
+    width: 20%;
+}
+.btnSearch{
+    display: inline-block;
 }
