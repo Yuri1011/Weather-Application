@@ -39,7 +39,7 @@ public with sharing class WeatherAppController {
     recordCity.Name = cityName;
     recordCity.Country__c = countryAbr;
 
-    // insert recordCity;
+    insert recordCity;
 
     return recordCity;
   }
@@ -60,7 +60,7 @@ public with sharing class WeatherAppController {
       recordsForecast.add(newForecast); 
     }
 
-    // insert recordsForecast;
+    insert recordsForecast;
   }
 
   public class WeatherWrapper{
@@ -93,7 +93,7 @@ public with sharing class WeatherAppController {
 
   @AuraEnabled
     public Decimal temp_min;
-    
+
   @AuraEnabled
     public Decimal temp_max;
   }
