@@ -14,31 +14,26 @@ public with sharing class ForecastTriggerHandler {
     }
 
     public static void deleteDublicateForecastForCity() {
-        List<City__c> oldRecordsCity = [SELECT Id, Name, Country__c FROM City__c];
 
-        Id idNewRecordCity;
+        Set<Id> idsNewRecordCity = new Set<Id>();
         for (Forecast__c record : (List<Forecast__c>)Trigger.new) {
-             idNewRecordCity = record.City__c;
+             idsNewRecordCity.add(record.City__c);
         }
 
         List<City__c> newRecordsCity = [
             SELECT Id, Name, Country__c 
             FROM City__c 
-            WHERE Id = :idNewRecordCity];
+            WHERE Id IN: idsNewRecordCity];
 
-        List<Id> deleteDublicateRecordsCity = new List<Id>();
-
+        List<String> nameAndAbr = new List<String>();
         for (City__c record : newRecordsCity) {
-            for (City__c variable : oldRecordsCity) {
-                if (record.Id != variable.Id && record.Name == variable.Name && record.Country__c == variable.Country__c) {
-                    deleteDublicateRecordsCity.add(variable.Id);
-                }
-            }
+            nameAndAbr.add(record.Name);
+            nameAndAbr.add(record.Country__c);
         }
 
         delete[
-            SELECT Id 
+            SELECT Id, Name, Country__c
             FROM City__c 
-            WHERE Id IN: deleteDublicateRecordsCity];
+            WHERE Id != :newRecordsCity AND Name IN: nameAndAbr AND Country__c IN: nameAndAbr];
     }
 }
