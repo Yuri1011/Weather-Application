@@ -56,7 +56,6 @@ public with sharing class WeatherAppController {
       newForecast.Time__c = dataTimesForecast.time();     
       newForecast.Temperature__c = variable.main.temp;
       newForecast.City__c = recordCity.Id;
-      // newForecast.Weather_Message__c =
       recordsForecast.add(newForecast); 
     }
 

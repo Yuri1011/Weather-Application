@@ -3,7 +3,6 @@ import getCustomSettingsWeather from '@salesforce/apex/WeatherAppController.getC
 
 export default class WeatherApp extends LightningElement {
     city;
-    
     dateForecast;
     timeForecast;
     temperatureForecast;
