@@ -1,53 +1,40 @@
 <!-- sldsValidatorIgnore -->
 <template>
     <div class="container">
-        <lightning-layout class="marginBlock">
-            <lightning-card icon-name="custom:custom18" title="Date">
-                <template if:true={dateForecast}>
-                    <template for:each={dateForecast} for:item='date'>
-                        <div key={index} class="date">
-                            <!-- <div>
-                                Date:
-                            </div> -->
-                            <div>
-                                {date}
+        <template if:false={forecastRecords}>
+            <template for:each={forecastRecords} for:item='item'>
+                <lightning-layout key={index} class="marginBlock">
+                    <lightning-layout>
+                        <lightning-card icon-name="custom:custom18" title="Date">
+                            <div class="date slds-grid">
+                                <div class="slds-col slds-p-right_x-large">
+                                    <lightning-formatted-date-time value={item.dt} year="2-digit" month="short"
+                                        day="2-digit" weekday="narrow"></lightning-formatted-date-time>
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </template>
-            </lightning-card>
-        </lightning-layout>
-        <lightning-layout class="marginBlock">
-            <lightning-card icon-name="custom:custom25" title="Time">
-                <template if:true={timeForecast}>
-                    <template for:each={timeForecast} for:item='time'>
-                        <div key={index} class="time">
-                            <div>
-                                Time:
+                        </lightning-card>
+                    </lightning-layout>
+                    <lightning-layout>
+                        <lightning-card icon-name="custom:custom18" title="Date">
+                            <div class="date slds-grid">
+                                <div class="slds-col slds-p-right_x-large">
+                                    <lightning-formatted-date-time value={item.dt} year="2-digit" month="short"
+                                        day="2-digit" weekday="narrow"></lightning-formatted-date-time>
+                                </div>
                             </div>
-                            <div>
-                                {time}
+                        </lightning-card>
+                    </lightning-layout>
+                    <lightning-layout>
+                        <lightning-card icon-name="custom:custom18" title="Date">
+                            <div class="date slds-grid">
+                                <div class="slds-col">
+                                    {item.main.temp}
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </template>
-            </lightning-card>
-        </lightning-layout>
-        <lightning-layout class="marginBlock">
-            <lightning-card icon-name="custom:custom97" title="Temperature">
-                <template if:true={temperatureForecast}>
-                    <template for:each={temperatureForecast} for:item='temp'>
-                        <div key={index} class="temp">
-                            <div class="">
-                                Temperature:
-                            </div>
-                            <div>
-                                {temp}
-                            </div>
-                        </div>
-                    </template>
-                </template>
-            </lightning-card>
-        </lightning-layout>
+                        </lightning-card>
+                    </lightning-layout>
+                </lightning-layout>
+            </template>
+        </template>
     </div>
 </template>
