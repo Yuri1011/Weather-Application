@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import getCustomSettingsWeather from '@salesforce/apex/WeatherAppController.getCustomSettingsWeather';
+import getData from '@salesforce/apex/WeatherAppController.getData';
 
 export default class WeatherApp extends LightningElement {
     city;
@@ -12,7 +12,7 @@ export default class WeatherApp extends LightningElement {
     }
 
     weatherCheck() {
-        getCustomSettingsWeather({city: this.city})
+        getData({city: this.city})
         .then(result => {
             const arrayDate = [];
             const arrayTime = [];
