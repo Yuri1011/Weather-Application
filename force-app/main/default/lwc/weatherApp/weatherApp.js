@@ -3,10 +3,7 @@ import getData from '@salesforce/apex/WeatherAppController.getData';
 
 export default class WeatherApp extends LightningElement {
     city;
-    dateForecast;
-    timeForecast;
-    temperatureForecast;
-
+    datesForecast;
     forecastRecords;
 
     onchangeInputCity(event) {
@@ -17,29 +14,12 @@ export default class WeatherApp extends LightningElement {
         getData({city: this.city})
         .then(result => {
             this.forecastRecords = result.listForecasts;
-            // console.log('====>>> ', this.fore);
-            // const arrayDate = [];
-            // const arrayTime = [];
-            // const arrayTemp = [];
-            // result.listForecasts.forEach(item=>{
-            //     const currentDate = new Date(item.dt * 1000);
-            //     const currentDayOfMonth = currentDate.getDate();
-            //     const currentMonth = currentDate.getMonth(); 
-            //     const currentYear = currentDate.getFullYear();
-            //     const dateForecast = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentYear;
-            //     arrayDate.push(dateForecast);
-            //     this.dateForecast = arrayDate;
-
-            //     const currentHour = currentDate.getHours();
-            //     const currentMinutes = currentDate.getMinutes();
-            //     const timeForecast = currentHour + ":" + currentMinutes;
-            //     arrayTime.push(timeForecast);
-            //     this.timeForecast = arrayTime;
-
-            //     const temperatureForecast = item.main.temp;
-            //     arrayTemp.push(temperatureForecast);
-            //     this.temperatureForecast = arrayTemp;
-            // })
+            const arrayDate = [];
+            this.forecastRecords.forEach(item => {
+                const currentDate = item.dt * 1000;
+                arrayDate.push(currentDate);
+                this.datesForecast = arrayDate;
+            })
         })
         .catch(error =>{
             console.log(error);

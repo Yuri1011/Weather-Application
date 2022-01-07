@@ -1,26 +1,34 @@
 <!-- sldsValidatorIgnore -->
 <template>
     <div class="container">
-        <template for:each={forecastRecords} for:item='item'>
-            <lightning-layout key={index} class="">
-                <lightning-card class="card" icon-name="custom:custom18" title="Date">
-                    <div class="blockContent">
-                        <lightning-formatted-date-time value={item.dt} day="2-digit" month="short" year="numeric">
-                        </lightning-formatted-date-time>
-                    </div>
-                </lightning-card>
-                <lightning-card class="card" icon-name="custom:custom25" title="Time">
-                    <div class="blockContent">
-                        <lightning-formatted-date-time value={item.dt} hour="2-digit" minute="2-digit">
-                        </lightning-formatted-date-time>
-                    </div>
-                </lightning-card>
-                <lightning-card class="card" icon-name="custom:custom97" title="Temperature">
-                    <div class="blockContent">
-                        {item.main.temp}
-                    </div>
-                </lightning-card>
-            </lightning-layout>
-        </template>
+        <div>
+            <template for:each={datesForecast} for:item='item'>
+                <lightning-layout key={index} class="">
+                    <lightning-card class="card" icon-name="custom:custom18" title="Date">
+                        <div class="blockContent">
+                            <lightning-formatted-date-time value={item} day="2-digit" month="short" year="numeric">
+                            </lightning-formatted-date-time>
+                        </div>
+                    </lightning-card>
+                    <lightning-card class="card" icon-name="custom:custom25" title="Time">
+                        <div class="blockContent">
+                            <lightning-formatted-date-time value={item} hour="2-digit" minute="2-digit">
+                            </lightning-formatted-date-time>
+                        </div>
+                    </lightning-card>
+                </lightning-layout>
+            </template>
+        </div>
+        <div>
+            <template for:each={forecastRecords} for:item='temp'>
+                <lightning-layout key={index} class="">
+                    <lightning-card class="card" icon-name="custom:custom97" title="Temperature">
+                        <div class="blockContent">
+                            {temp.main.temp}
+                        </div>
+                    </lightning-card>
+                </lightning-layout>
+            </template>
+        </div>
     </div>
 </template>

@@ -1,6 +1,6 @@
 .container{
-    margin: 0px auto;
-    width: min-content;
+    display: flex;
+    justify-content: center;
 }
 .blockContent{
     display: flex;
