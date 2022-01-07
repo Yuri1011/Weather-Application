@@ -1,20 +1,8 @@
 .container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin: 0px auto;
+    width: min-content;
 }
-.date{
-    display: flex;
-    justify-content: space-evenly;
-    color: blue;
-    font-size: larger;
-    font-weight: bolder;
-    padding: 5px;
-}
-.marginBlock{
-    margin: 5px;
-}
-.time{
+.blockContent{
     display: flex;
     justify-content: space-evenly;
     color: blue;
@@ -22,11 +10,6 @@
     font-weight: bolder;
     padding: 5px;
 }
-.temp{
-    display: flex;
-    justify-content: space-evenly;
-    color: blue;
-    font-size: larger;
-    font-weight: bolder;
-    padding: 5px;
+.card{
+    margin-bottom: 3px;
 }
