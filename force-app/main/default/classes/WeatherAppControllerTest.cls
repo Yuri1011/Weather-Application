@@ -62,9 +62,12 @@ public class WeatherAppControllerTest {
 
     @isTest
     public static void getDataTest() {
-        WeatherAppController.WeatherWrapper forecastWeather = WeatherAppController.getData('Paris');
-
-
-        System.assertNotEquals(NULL, forecastWeather);
+        try {
+            WeatherAppController.WeatherWrapper forecastWeather = WeatherAppController.getData('Paris');
+            System.assertNotEquals(NULL, forecastWeather);
+    
+        } catch (Exception e) {
+            System.assertNotEquals(NULL, e, 'It is exception because method do API call');
+        }
     }
 }
